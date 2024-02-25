@@ -272,6 +272,20 @@ class BigOneClient(Request):
         return self.private_get('viewer/trades', 'Trade', params)
 
     def my_withdrawals(self, asset_symbol, kind, **page_options):
+        """Fetches user withdrawal records.
+
+        Args:
+            asset_symbol: asset symbol, e.g.: BTC
+            kind: kind: on_chain, off_chain, internal
+            page_token: request page after this page token
+            limit: defalut 50
+
+        Returns:
+            Withdrawal info
+
+        Doc: 
+            https://open.bigone.com/docs/spot_withdrawal.html#get-withdrawals-of-user
+        """
         params = {
             'asset_symbol': asset_symbol,
             "kind": kind,
@@ -281,9 +295,36 @@ class BigOneClient(Request):
                                 params)
     
     def get_withdrawal(self, id):
+        """Fetches user withdrawal by id.
+
+        Args:
+            id: path arg.
+
+        Returns:
+            Withdrawal info
+
+        Doc: 
+            https://open.bigone.com/docs/spot_withdrawal.html#get-one-withdrawal
+        """
         return self.private_get('viewer/withdrawals/%s' % id, 'Withdrawal')
     
     def create_withdrawal(self, symbol, target_address, amount, memo, guid, gateway_name):
+        """User create withdrawal.
+
+        Args:
+            symbol: asset symbol, e.g.: BTC
+            target_address: target address, e.g.: 3PumsXwUSakZomHXMcY93RrVRJ7PAi2ida
+            amount:	amount
+            memo: memo	
+            guid: e.g.: c37173f4-751f-4cc1-9904-c1041dcae4f7
+            gateway_name: withdraw asset belongs to which chain	For example, if you wish to widrawal USDT on Ethereum, then symbol should be 'USDT' and gateway_name should be 'Ethereum'. Avaliable gateway names: Bitcoin, Ethereum, Tron, EOS, Mixin
+
+        Returns:
+            Withdrawal info
+
+        Doc: 
+            https://open.bigone.com/docs/spot_withdrawal.html#create-withdrawal-of-user
+        """
         params = {
             "symbol": symbol,
             "target_address": target_address,
@@ -295,9 +336,34 @@ class BigOneClient(Request):
         return self.private_post('viewer/withdrawals', 'Withdrawal', params)
     
     def cancel_withdrawal(self, id):
+        """User cancel withdrawal.
+
+        Args:
+            id: path arg.
+
+        Returns:
+            Common response
+
+        Doc: 
+            https://open.bigone.com/docs/spot_withdrawal.html#cancel-one-withdrawal
+        """
         return self.private_post('viewer/withdrawals/%s/cancel' % id, 'Common')
     
     def my_deposits(self, asset_symbol, kind, **page_options):
+        """Fetches user deposit records.
+
+        Args:
+            asset_symbol: asset symbol, e.g.: BTC
+            kind: kind: on_chain, off_chain, internal
+            page_token: request page after this page token
+            limit: defalut 50
+
+        Returns:
+            Deposit info
+
+        Doc: 
+            https://open.bigone.com/docs/spot_deposit.html#deposit-of-user
+        """
         params = {
             'asset_symbol': asset_symbol,
             "kind": kind,
@@ -306,9 +372,38 @@ class BigOneClient(Request):
         return self.private_get('viewer/deposits', 'Deposit', params)
     
     def get_deposit_address(self, asset_symbol):
+        """Fetches deposit address of one asset of user.
+
+        Args:
+            asset_symbol: path arg. asset symbol, e.g.: BTC
+
+        Returns:
+            Deposit address info
+
+        Doc: 
+            https://open.bigone.com/docs/spot_deposit.html#deposit-of-user
+        """
         return self.private_get('viewer/assets/%s/address' % asset_symbol, 'DepositAddress')
     
     def my_transfer(self, symbol, amount, guid, from_acc_type, to_acc_type, type, sub_account):
+        """Fetches user transfer records.
+
+        Args:
+            symbol: e.g.: USDT
+            amount: must larger than 0	
+            guid: unique id created by users to identify their transfers, e.g. UUID.	
+            from_acc_type: account type of payer, one of SPOT/FUND/CONTRACT	
+            to_acc_type: account type of payee, one of SPOT/FUND/CONTRACT	
+            type: transfer type, one of NORMAL/MASTER_TO_SUB/SUB_TO_MASTER/SUB_INTERNAL. default is NORMAL, means transfer between current customer, whether it is a master-account or sub-account. `MASTER_TO_SUB` means tranfer from current master-account to the sub-account. `SUB_TO_MASTER` means transfer from the sub-account to current master-account.
+            `SUB_INTERNAL` means the current master account controls the designated sub-account to transfer between itself	NORMAL
+            sub_account: The user name of the sub-account under the current master-account, when type is NORMAL, it should be empty, and when type is others it is required
+
+        Returns:
+            Transfer info
+
+        Doc: 
+            https://open.bigone.com/docs/spot_transfer.html#transfer-of-user
+        """
         params = {
             'symbol': symbol,
             "amount": amount,
@@ -321,6 +416,17 @@ class BigOneClient(Request):
         return self.private_get('viewer/transfer', 'Common', params)
     
     def my_trading_fee(self, asset_pair_names):
+        """Fetches trading fee of one asset of user.
+
+        Args:
+            asset_pair_names: e.g.: BTC-USDT
+
+        Returns:
+            Trading fee info
+
+        Doc: 
+            https://open.bigone.com/docs/spot_trading_fee.html#tradingfee-of-user
+        """
         params = {
             'asset_pair_names': asset_pair_names,
         }
