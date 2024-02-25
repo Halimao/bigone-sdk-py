@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-import requests
+import urllib.request
+import json
 
-version = requests.get("https://api.github.com/repos/Halimao/bigone-sdk-py/releases/latest").json()["tag_name"]
+data = urllib.request.urlopen("https://api.github.com/repos/Halimao/bigone-sdk-py/releases/latest").read().decode('utf-8')
+
+version = json.loads(data)["tag_name"]
 setup(name="bigone-sdk-py",
       version=version,
       description="A Python SDK for BigOne (https://big.one)",
