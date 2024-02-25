@@ -10,6 +10,7 @@ version = json.loads(data)["tag_name"]
 setup(name="bigone-sdk-py",
       version=version,
       description="A Python SDK for BigOne (https://big.one)",
+      long_description="A Python SDK for BigOne (https://big.one)",
       maintainer="Halimao",
       maintainer_email="halimao.lin@gmail.com",
       url = "https://github.com/Halimao/bigone-sdk-py",
