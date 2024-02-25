@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-import subprocess
+import requests
 
-version = subprocess.check_output(["git", "describe", "--tags"]).strip().decode('utf-8')
+version = requests.get("https://api.github.com/repos/Halimao/bigone-sdk-py/releases/latest").json()["tag_name"]
 setup(name="bigone-sdk-py",
       version=version,
       description="A Python SDK for BigOne (https://big.one)",
