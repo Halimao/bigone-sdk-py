@@ -1,19 +1,15 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-from bigone import VERSION
+import subprocess
 
-url="https://github.com/Halimao/bigone-sdk-py"
-
-long_description="A Python SDK for BigOne (https://big.one)"
-
+version = subprocess.check_output(["git", "describe", "--tags"]).strip().decode('utf-8')
 setup(name="bigone-sdk-py",
-      version=VERSION,
-      description=long_description,
+      version=version,
+      description="A Python SDK for BigOne (https://big.one)",
       maintainer="Halimao",
       maintainer_email="halimao.lin@gmail.com",
-      url = url,
-      long_description=long_description,
+      url = "https://github.com/Halimao/bigone-sdk-py",
       install_requires = ['requests', 'pyjwt'],
       packages=find_packages('.'),
      )

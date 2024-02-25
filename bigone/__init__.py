@@ -1,4 +1,3 @@
-VERSION = '0.0.1'
 AUTHOR = 'halimao.lin@gmail.com'
 
 RATE_LIMIT_IP_PER_SECOND = 500
